@@ -6,7 +6,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { useLocalSearchParams, Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
 interface TestAnswer {
   question: {
@@ -106,13 +106,6 @@ export default function HistoryDetailScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: 'Chi tiết bài test',
-          headerBackTitle: 'Quay lại',
-        }}
-      />
-
       {/* Overview */}
       <View style={styles.overviewCard}>
         <Text style={styles.exerciseTitle}>{detail.exercise.title}</Text>

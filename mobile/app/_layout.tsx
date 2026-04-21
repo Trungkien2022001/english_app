@@ -1,29 +1,10 @@
-import { useEffect } from 'react';
+import React from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAuthStore } from '../lib/store/authStore';
 
-// Prevent splash screen from auto-hiding
-SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    // Add your custom fonts here if needed
-  });
-
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <SafeAreaProvider>
       <RootLayoutNav />

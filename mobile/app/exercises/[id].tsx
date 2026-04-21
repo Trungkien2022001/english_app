@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { exerciseApi, TestSession, Question } from '../../lib/api/exercise';
 
 export default function ExerciseDetailScreen() {
@@ -126,13 +126,6 @@ export default function ExerciseDetailScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: session.exercise.title,
-          headerBackTitle: 'Quay lại',
-        }}
-      />
-
       {/* Progress */}
       <View style={styles.progressContainer}>
         <View style={styles.progressBar}>

@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { useAuthStore } from '../../lib/store/authStore';
+import React from 'react';
 
 export default function AuthLayout() {
   const router = useRouter();

@@ -6,11 +6,6 @@ export default {
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
-    splash: {
-      image: './assets/splash.png',
-      resizeMode: 'contain',
-      backgroundColor: '#ffffff'
-    },
     assetBundlePatterns: [
       '**/*'
     ],
@@ -21,7 +16,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor': '#ffffff'
+        backgroundColor: '#ffffff'
       },
       package: 'com.englishapp.app'
     },
@@ -29,15 +24,7 @@ export default {
       favicon: './assets/favicon.png'
     },
     plugins: [
-      'expo-router',
-      [
-        'expo-splash-screen',
-        {
-          backgroundColor: '#ffffff',
-          image: './assets/splash.png',
-          imageWidth: 200
-        }
-      ]
+      'expo-router'
     ],
     scheme: 'englishapp',
     experiments: {

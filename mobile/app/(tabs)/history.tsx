@@ -6,25 +6,10 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { exerciseApi } from '../../lib/api/exercise';
-
-interface TestHistoryItem {
-  id: string;
-  exercise: {
-    id: string;
-    title: string;
-  };
-  category_name: string;
-  exercise_type: string;
-  started_at: string;
-  completed_at: string;
-  total_questions: number;
-  correct_answers: number;
-  score: number;
-  status: string;
-}
+import { exerciseApi, TestHistoryItem } from '../../lib/api/exercise';
 
 export default function HistoryScreen() {
   const router = useRouter();
@@ -38,23 +23,13 @@ export default function HistoryScreen() {
   const loadHistory = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8080/api/v1/history/tests', {
-        headers: {
-          Authorization: `Bearer ${await getAccessToken()}`,
-        },
-      });
-      const data = await response.json();
+      const data = await exerciseApi.getHistoryTests();
       setHistory(data.history || []);
     } catch (error) {
       console.error('Error loading history:', error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const getAccessToken = async () => {
-    // This should be from SecureStore
-    return '';
   };
 
   const formatDate = (dateString: string) => {
@@ -121,8 +96,10 @@ export default function HistoryScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Lịch sử bài test</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>Lịch sử bài test</Text>
+      </View>
 
       {history.length === 0 ? (
         <View style={styles.emptyContainer}>
@@ -137,9 +114,10 @@ export default function HistoryScreen() {
           keyExtractor={(item) => item.id}
           renderItem={renderHistoryItem}
           contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -147,7 +125,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    padding: 20,
+  },
+  headerContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   loadingContainer: {
     flex: 1,
@@ -155,12 +137,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#1a1a1a',
-    marginBottom: 20,
   },
   listContent: {
+    paddingHorizontal: 20,
     paddingBottom: 20,
   },
   historyCard: {
@@ -222,10 +204,10 @@ const styles = StyleSheet.create({
     color: '#ccc',
   },
   emptyContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 60,
+    paddingHorizontal: 20,
   },
   emptyIcon: {
     fontSize: 64,

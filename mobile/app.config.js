@@ -24,14 +24,17 @@ export default {
       favicon: './assets/favicon.png'
     },
     plugins: [
-      'expo-router'
+      'expo-router',
+      'expo-sqlite',
+      'expo-document-picker'
     ],
     scheme: 'englishapp',
     experiments: {
       typedRoutes: true
     },
     extra: {
-      apiUrl: process.env.API_URL || 'http://localhost:8080'
+      apiUrl: process.env.API_URL || 'http://localhost:8080',
+      useLocalDatabase: true
     }
   }
 };

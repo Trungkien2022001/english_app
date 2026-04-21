@@ -7,41 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-
-interface TestAnswer {
-  question: {
-    question_text: string;
-    vocabulary?: {
-      word: string;
-      meaning: string;
-      pronunciation: string;
-      example_sentence: string;
-    };
-  };
-  answer: {
-    answer_text: string;
-    is_correct: boolean;
-  };
-  is_correct: boolean;
-  is_hint_used: boolean;
-  time_spent_seconds: number;
-  answered_at: string;
-}
-
-interface TestDetail {
-  id: string;
-  exercise: {
-    title: string;
-  };
-  category_name: string;
-  exercise_type: string;
-  started_at: string;
-  completed_at: string;
-  total_questions: number;
-  correct_answers: number;
-  score: number;
-  answers: TestAnswer[];
-}
+import { exerciseApi, TestDetail } from '../../lib/api/exercise';
 
 export default function HistoryDetailScreen() {
   const params = useLocalSearchParams();
@@ -57,26 +23,13 @@ export default function HistoryDetailScreen() {
   const loadDetail = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/v1/history/tests/${sessionId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${await getAccessToken()}`,
-          },
-        }
-      );
-      const data = await response.json();
+      const data = await exerciseApi.getHistoryDetail(sessionId);
       setDetail(data);
     } catch (error) {
       console.error('Error loading detail:', error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const getAccessToken = async () => {
-    // This should be from SecureStore
-    return '';
   };
 
   const formatDate = (dateString: string) => {

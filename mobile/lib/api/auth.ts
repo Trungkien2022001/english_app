@@ -1,4 +1,6 @@
 import apiClient from './client';
+import { useLocalDatabase } from '../config/dataSource';
+import { localDatabase } from '../data/localDatabase';
 
 export interface LoginRequest {
   email: string;
@@ -33,16 +35,28 @@ export interface AuthResponse {
 
 export const authApi = {
   login: async (data: LoginRequest): Promise<AuthResponse> => {
+    if (useLocalDatabase) {
+      return localDatabase.login(data.email, data.password);
+    }
+
     const response = await apiClient.post<AuthResponse>('/auth/login', data);
     return response.data;
   },
 
   register: async (data: RegisterRequest): Promise<any> => {
+    if (useLocalDatabase) {
+      return localDatabase.register(data.email, data.password, data.full_name);
+    }
+
     const response = await apiClient.post('/auth/register', data);
     return response.data;
   },
 
   getCurrentUser: async (): Promise<any> => {
+    if (useLocalDatabase) {
+      return localDatabase.getCurrentUser();
+    }
+
     const response = await apiClient.get('/auth/me');
     return response.data;
   },
@@ -55,6 +69,10 @@ export const authApi = {
   },
 
   logout: async (): Promise<any> => {
+    if (useLocalDatabase) {
+      return localDatabase.logout();
+    }
+
     const response = await apiClient.post('/auth/logout');
     return response.data;
   },

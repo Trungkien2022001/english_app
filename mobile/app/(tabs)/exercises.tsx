@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { exerciseApi, Exercise } from '../../lib/api/exercise';
@@ -79,8 +80,10 @@ export default function ExercisesScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Danh sách bài tập</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>Danh sách bài tập</Text>
+      </View>
 
       {exercises.length === 0 ? (
         <View style={styles.emptyContainer}>
@@ -147,7 +150,7 @@ export default function ExercisesScreen() {
           contentContainerStyle={styles.listContent}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -155,7 +158,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    padding: 20,
+  },
+  headerContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   loadingContainer: {
     flex: 1,
@@ -163,10 +170,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#1a1a1a',
-    marginBottom: 20,
   },
   emptyContainer: {
     flex: 1,
@@ -178,6 +184,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   listContent: {
+    paddingHorizontal: 20,
     paddingBottom: 20,
   },
   exerciseCard: {
